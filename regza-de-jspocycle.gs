@@ -35,7 +35,7 @@ function regzaReservation() {
   // 日時の抽出
   // <td class="timeschedule">04月09日（土）<br />
   // 午後09:00 - 午後09:30</td>
-  var myRegexpDate = /<td class="timeschedule">([0-9]+)月([0-9]+)日.*<br \/>\n(午前|午後|深夜)([0-9]+):([0-9]+) - (午前|午後|深夜)([0-9]+):([0-9]+)<\/td>/ig;
+  var myRegexpDate = /<td class="timeschedule">([0-9]+)月([0-9]+)日.*<br \/>\n(午前|午後|深夜) ?([0-9]+):([0-9]+) - (午前|午後|深夜) ?([0-9]+):([0-9]+)<\/td>/ig;
 
   // チャンネルの抽出
   // <th abbr="J SPORTS 3" axis="J SPORTS 3" scope="row" class="channelLabel">
