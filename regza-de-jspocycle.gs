@@ -60,6 +60,13 @@ function regzaReservation() {
     var startHours = match[4];
     if (startAmPm == "午後") {
       startHours = String(Number(startHours) + 12)
+    } else if (startAmPm == "深夜") {
+      // 深夜開始は日付を加算
+      var tomorrow = new Date(year, month, day);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      year = Utilities.formatDate(tomorrow, "Asia/Tokyo", "YYYY");
+      month = Utilities.formatDate(tomorrow, "Asia/Tokyo", "MM");
+      day = Utilities.formatDate(tomorrow, "Asia/Tokyo", "dd");
     }
     var startMinuts = match[5];
     var endAmPm = match[6];
