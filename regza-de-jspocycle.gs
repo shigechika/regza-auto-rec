@@ -47,7 +47,7 @@ function regzaReservation() {
 
     var month = match[1];
     var day = match[2];
-    var startTime = new Date(year, month, day).getTime();
+    var startTime = new Date(year, month - 1, day).getTime();
     Logger.log(startTime);
     if (todayTime <= startTime && startTime <= futureTime) {
       Logger.log("期間内");
@@ -62,7 +62,7 @@ function regzaReservation() {
       startHours = String(Number(startHours) + 12)
     } else if (startAmPm == "深夜") {
       // 深夜開始は日付を加算
-      var tomorrow = new Date(year, month, day);
+      var tomorrow = new Date(year, month - 1, day);
       tomorrow.setDate(tomorrow.getDate() + 1);
       year = Utilities.formatDate(tomorrow, "Asia/Tokyo", "YYYY");
       month = Utilities.formatDate(tomorrow, "Asia/Tokyo", "MM");
@@ -113,7 +113,7 @@ function getDateTime(date) {
   var month = Utilities.formatDate(date, "Asia/Tokyo", "MM");
   var day = Utilities.formatDate(date, "Asia/Tokyo", "dd");
   Logger.log(year + "-" + month + "-" + day);
-  var time = new Date(year, month, day).getTime();
+  var time = new Date(year, month - 1, day).getTime();
   return time
 }
 
