@@ -1,4 +1,4 @@
-# Regza Auto. Rec.
+# REGZA AUTO REC
 TOSHIBA REGZA DBR-M590 yet another Automatic Recording
 
 ・はじめに
@@ -15,4 +15,4 @@ WOWOW映画の初回放送の自動録画。WOWOWのEPG番組表には初回放�
 
 ・無保証
 
-Google Apps Scriptの勉強兼ねてスクリプト書いてみた。Google Apps Scriptにはタイマー起動（cronのこと）できるのでこのまま運用可能。毎日1回動させばOK。力技かつエラー処理なく冗長でオンシーズンしか使えなさげな汚ったねーへっぽこコードだけど動いた。無保証なのでよろしく。
+Google Apps Scriptの勉強兼ねてスクリプト書いてみた。Google Apps Scriptにはタイマー起動（cronのこと）できるのでこのまま運用可能。毎日1回動させばOK。3日先までの自動予約をするので同じメールを3回送ることなる。冗長過ぎるならばタイマー起動の頻度を減らすか，自動予約先期間を短くして欲しい。力技かつエラー処理なく冗長でオンシーズンしか使えなさげな汚ったねーへっぽこコードだけど動いた。無保証なのでよろしく。
