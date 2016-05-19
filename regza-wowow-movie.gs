@@ -54,13 +54,13 @@ function regzaWowowMovie() {
     var startTime = startDate.getTime();
     Logger.log("startTime:" + startTime);
     if (todayTime <= startTime && startTime <= futureTime) {
-      Logger.log("期間内");
+      Logger.log("Within Range");
     } else {
-      Logger.log("期間外");
+      Logger.log("Out of Range");
       continue;
     }
 
-    //　終了時刻を設定しないといけないので90分決め打ちで
+    // ホームページから終了時刻を拾えないが終了時刻を設定する必要があるので尺は映画ということで90分と仮設定
     var endTime = startTime + 90 * 60 * 1000; // 90分をミリ秒変換
     var endDate = new Date();
     endDate.setTime(endTime);
@@ -69,7 +69,9 @@ function regzaWowowMovie() {
     var endMinute = Utilities.formatDate(endDate, "Asia/Tokyo", "mm");
     
     // open パスワード prog add 20160518 2315 0045 BS193 AF H1 EY
-    // EYにすると番組表から開始時刻と終了時刻を自動調整するの必須
+    // EYにすると番組表から開始時刻付近の番組を自動予約する
+    // よって90分として設定している尺はREGZAがよろしく終了時間を調整してくれる。ハズw
+    // EYを設定するためには録画モード（AF）と録画先（H1）も設定する必要があるので仮設定
     var order = "open " + password + " prog add " + year + month + day + " " +
       startHour + startMinute + " " +
       endHour + endMinute + " " +
