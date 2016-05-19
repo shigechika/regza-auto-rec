@@ -21,7 +21,7 @@ function regzaJsportsCycle() {
 
   // JSPORTSホームページ検索条件
   var payload = {
-    "genre": "12", // 自転車
+    "genre": "12", // 12:自転車，03:ラグビー，0501：スーパーバイク世界選手権
     "broad_kbn[]": "2", // 初回放送（生放送＋録画初回放送）
   };
   var options = {
