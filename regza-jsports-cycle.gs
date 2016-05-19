@@ -8,6 +8,7 @@ function regzaJsportsCycle() {
 
   // 時間比較のためにTime値を使う
   var today = new Date();
+  var year = today.getYear();
   Logger.log("today:" + today);
   var todayTime = today.getTime();
   Logger.log("todayTime:" + todayTime);
@@ -103,7 +104,7 @@ function regzaJsportsCycle() {
       channel // + " AF U1 EY";
     Logger.log(order);
 
-    MailApp.sendEmail(email, "Regza JSports Cycle*" + year, order);
+    MailApp.sendEmail(email, "Regza Jsports Cycle " + year + month + day, order);
   }
 }
 
