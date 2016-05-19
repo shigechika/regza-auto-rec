@@ -69,9 +69,9 @@ function regzaWowowMovie() {
     var endMinute = Utilities.formatDate(endDate, "Asia/Tokyo", "mm");
     
     // open パスワード prog add 20160518 2315 0045 BS193 AF H1 EY
-    // EYにすると番組表から開始時刻付近の番組を自動予約する
-    // よって90分として設定している尺はREGZAがよろしく終了時間を調整してくれる。ハズw
-    // EYを設定するためには録画モード（AF）と録画先（H1）も設定する必要があるので仮設定
+    // EYにするとEPG番組表から開始時刻付近の番組を自動予約する
+    // 90分として仮設定している映画の尺はREGZAが賢く時刻を調整してくれるハズw
+    // EYを使うために録画モード（AF）と録画先（H1）も設定する必要があるので仮設定
     var order = "open " + password + " prog add " + year + month + day + " " +
       startHour + startMinute + " " +
       endHour + endMinute + " " +
