@@ -39,7 +39,7 @@ function regzaJsportsCycle() {
 
   // チャンネルの抽出
   // <th abbr="J SPORTS 3" axis="J SPORTS 3" scope="row" class="channelLabel">
-  var jsportsRegexpChannel = /<th abbr="(J SPORTS [1234])" axis="(J SPORTS [1234])" scope="row" class="channelLabel">/ig;
+  var jsportsRegexpChannel = /<th abbr="(J SPORTS \d)" axis="(J SPORTS \d)" scope="row" class="channelLabel">/ig;
   var match;
 
   while ((match = jsportsRegexpDate.exec(text)) !== null) {
@@ -53,6 +53,7 @@ function regzaJsportsCycle() {
       Logger.log("Within Range");
     } else {
       Logger.log("Out of Range");
+      jsportsRegexpChannel.exec(text); // jsportsRegexpDateとjsportsRegexpChannelを同期取るために地団駄
       continue;
     }
 
