@@ -22,14 +22,14 @@ function regzaJsportsCycle() {
 
   // JSPORTSホームページ検索条件
   var payload = {
-    "genre": "12", // 12:自転車，03:ラグビー，0501：スーパーバイク世界選手権
+    "genre": "12", // 12:自転車，03:ラグビー，031211:トップリーグYAMAHAジュビロ，00501：スーパーバイク世界選手権
     "broad_kbn[]": "2", // 初回放送（生放送＋録画初回放送）
   };
   var options = {
     "method": "post",
     "payload": payload
   };
-  var response = UrlFetchApp.fetch("http://www.jsports.co.jp/search/sys/program/", options);
+  var response = UrlFetchApp.fetch("https://www.jsports.co.jp/search/sys/program/", options);
   var text = response.getContentText("EUC-JP");
 
   // 日時の抽出
