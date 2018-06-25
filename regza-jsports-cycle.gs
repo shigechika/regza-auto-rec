@@ -47,15 +47,6 @@ function regzaJsportsCycle() {
 
     var month = match[1];
     var day = match[2];
-    var startTime = new Date(year, month - 1, day).getTime();
-    Logger.log(startTime);
-    if (todayTime <= startTime && startTime <= futureTime) {
-      Logger.log("Within Range");
-    } else {
-      Logger.log("Out of Range");
-      jsportsRegexpChannel.exec(text); // jsportsRegexpDateとjsportsRegexpChannelを同期取るために地団駄
-      continue;
-    }
 
     var startAmPm = match[3];
     var startHour = match[4];
@@ -70,6 +61,17 @@ function regzaJsportsCycle() {
       day = Utilities.formatDate(tomorrow, "Asia/Tokyo", "dd");
     }
     var startMinute = match[5];
+    
+    var startTime = new Date(year, month - 1, day, startHours, startMinuts).getTime(); // 注意：月は0はじまり
+    Logger.log(startTime);
+    if (todayTime <= startTime && startTime <= futureTime) {
+      Logger.log("Within Range");
+    } else {
+      Logger.log("Out of Range");
+      jsportsRegexpChannel.exec(text); // jsportsRegexpDateとjsportsRegexpChannelを同期取るために地団駄
+      continue;
+    }
+
     var endAmPm = match[6];
     var endHour = match[7];
     if (endAmPm == "午後") {
