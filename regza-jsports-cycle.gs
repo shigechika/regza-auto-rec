@@ -38,8 +38,8 @@ function regzaJsportsCycle() {
   var jsportsRegexpDate = /<td class="timeschedule">(\d+)月(\d+)日.*<br \/>\n(午前|午後|深夜) ?(\d+):(\d+) - (午前|午後|深夜) ?(\d+):(\d+)<\/td>/ig;
 
   // チャンネルの抽出
-  // <th abbr="J SPORTS 3" axis="J SPORTS 3" scope="row" class="channelLabel">
-  var jsportsRegexpChannel = /<th abbr="(J SPORTS \d)" axis="(J SPORTS \d)" scope="row" class="channelLabel">/ig;
+  // <li class="program-icon__item program-icon__item--jsp"><img src="/share/img/icon_jsp_channel1.png" alt="JSPORT 1"></li>
+  var jsportsRegexpChannel = /<li class="program-icon__item program-icon__item--jsp"><img src="\/share\/img\/icon_jsp_channel\d\.png" alt="(JSPORT \d)"><\/li>/ig;
   var match;
 
   while ((match = jsportsRegexpDate.exec(text)) !== null) {
@@ -83,16 +83,16 @@ function regzaJsportsCycle() {
     match = jsportsRegexpChannel.exec(text);
     var channel;
     switch (match[1]) {
-      case "J SPORTS 1":
+      case "JSPORT 1":
         channel = "BS242";
         break;
-      case "J SPORTS 2":
+      case "JSPORT 2":
         channel = "BS243";
         break;
-      case "J SPORTS 3":
+      case "JSPORT 3":
         channel = "BS244";
         break;
-      case "J SPORTS 4":
+      case "JSPORT 4":
         channel = "BS245";
         break;
     }
