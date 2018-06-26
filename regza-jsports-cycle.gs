@@ -10,20 +10,20 @@ function regzaJsportsCycle() {
   var today = new Date();
   var year = today.getYear();
   Logger.log("today:" + today);
-  var todayTime = today.getTime();
-  Logger.log("todayTime:" + todayTime);
 
   // 予約は直近3日先まで
-  var future = today;
+  var future = new Date();
   future.setDate(future.getDate() + 3);
   Logger.log("future:" + future);
-  var futureTime = future.getTime();
-  Logger.log("futureTime:" + futureTime);
 
   // JSPORTSホームページ検索条件
   var payload = {
     "genre": "12", // 12:自転車，03:ラグビー，031211:トップリーグYAMAHAジュビロ，00501：スーパーバイク世界選手権
     "broad_kbn[]": "2", // 初回放送（生放送＋録画初回放送）
+    "channel[1]" : "306", // J SPORTS 1
+    "channel[2]" : "307", // J SPORTS 2
+    "channel[3]" : "256", // J SPORTS 3
+    "channel[4]" : "253", // J SPORTS 4
   };
   var options = {
     "method": "post",
@@ -32,17 +32,24 @@ function regzaJsportsCycle() {
   var response = UrlFetchApp.fetch("https://www.jsports.co.jp/search/sys/program/", options);
   var text = response.getContentText("EUC-JP");
 
-  // 日時の抽出
-  // <td class="timeschedule">04月09日（土）<br />
-  // 午後09:00 - 午後09:30</td>
-  var jsportsRegexpDate = /<td class="timeschedule">(\d+)月(\d+)日.*<br \/>\n(午前|午後|深夜) ?(\d+):(\d+) - (午前|午後|深夜) ?(\d+):(\d+)<\/td>/ig;
-
-  // チャンネルの抽出
-  // <li class="program-icon__item program-icon__item--jsp"><img src="/share/img/icon_jsp_channel1.png" alt="JSPORT 1"></li>
-  var jsportsRegexpChannel = /<li class="program-icon__item program-icon__item--jsp"><img src="\/share\/img\/icon_jsp_channel\d\.png" alt="(JSPORT \d)"><\/li>/ig;
+/*
+<td class="timeschedule">07月05日（木）<br />
+深夜 01:00 - 深夜 03:30</td>
+<td class="program">
+<dl>
+<dt>
+<img class="icon" src="/program_guide/common/img/icon_pg_live.gif" alt="生放送" width="24" height="13" />
+</dt>
+<dd>
+<a href="/program_guide/69060.html">Cycle*2018　ツール・ド・フランス チームプレゼンテーション<br />ラ・ロシュ＝シュル＝ヨン</a><span class="icon"></span></dd>
+</dl>
+<ul class="program-icon">
+<li class="program-icon__item"><img src="/share/img/icon_jsports_ondemand.png" alt="JSPORTオンデマンド"></li><li class="program-icon__item program-icon__item--jsp"><img src="/share/img/icon_jsp_channel4.png" alt="JSPORT 4"></li>
+*/
+  var jspoRegexp = /<td class="timeschedule">(\d+)月(\d+)日.*\n(午前|午後|深夜) ?(\d+):(\d+) - (午前|午後|深夜) ?(\d+):(\d+)<\/td>\n<td class="program">\n<dl>\n<dt>\n<img .*\/>\n<\/dt>\n<dd>\n<a href=".*">(.*)<\/a>.*<\/dd>\n<\/dl>\n<ul class="program-icon">\n.*<li class="program-icon__item program-icon__item--jsp"><img src="\/share\/img\/icon_jsp_channel\d\.png" alt="(J ?SPORTS? \d)"><\/li>/ig;
   var match;
 
-  while ((match = jsportsRegexpDate.exec(text)) !== null) {
+  while ((match = jspoRegexp.exec(text)) !== null) {
     Logger.log(match);
 
     var month = match[1];
@@ -62,13 +69,12 @@ function regzaJsportsCycle() {
     }
     var startMinute = match[5];
     
-    var startTime = new Date(year, month - 1, day, startHours, startMinuts).getTime(); // 注意：月は0はじまり
-    Logger.log(startTime);
-    if (todayTime <= startTime && startTime <= futureTime) {
+    var start = new Date(year, month - 1, day, startHours, startMinuts); // 注意：月は0はじまり
+    Logger.log(start);
+    if (today.getTime() <= start.getTime() && start.getTime() <= future.getTime()) {
       Logger.log("Within Range");
     } else {
       Logger.log("Out of Range");
-      jsportsRegexpChannel.exec(text); // jsportsRegexpDateとjsportsRegexpChannelを同期取るために地団駄
       continue;
     }
 
@@ -78,13 +84,15 @@ function regzaJsportsCycle() {
       endHour = String(Number(endHour) + 12)
     }
     var endMinute = match[8];
+    var program = match[9].replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'　'); // HTMLタグ削除
+
     Logger.log(month + day);
     Logger.log(startAmPm + startHour + startMinute);
     Logger.log(endAmPm + endHour + endMinute);
+    Logger.log(program);
 
-    match = jsportsRegexpChannel.exec(text);
     var channel;
-    switch (match[1]) {
+    switch (match[10]) {
       case "JSPORT 1":
         channel = "BS242";
         break;
@@ -107,7 +115,7 @@ function regzaJsportsCycle() {
       channel // + " AF U1 EY";
     Logger.log(order);
 
-    MailApp.sendEmail(email, "Regza Jsports Cycle " + year + month + day, order);
+    MailApp.sendEmail(email, "Regza Jsports Cycle " + year + month + day + " " + program, order);
   }
 }
 
